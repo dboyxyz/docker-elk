@@ -1,40 +1,5 @@
 version: '3'
 services:
-  tomcat001:
-    image: tomcat:7.0.64
-    privileged: true
-    volumes:
-    - ./web/tomcat/ROOT:/usr/local/tomcat/webapps/ROOT
-    - ./web/tomcat/conf/1/server.xml:/usr/local/tomcat/conf/server.xml
-    - ./log/tomcat1:/usr/local/tomcat/logs
-    ports:
-    - "8111:8111"
-    restart: "always"
-    container_name: tomcat001
-  tomcat002:
-    image: tomcat:7.0.64
-    privileged: true
-    volumes:
-    - ./web/tomcat/ROOT:/usr/local/tomcat/webapps/ROOT
-    - ./web/tomcat/conf/2/server.xml:/usr/local/tomcat/conf/server.xml
-    - ./log/tomcat2:/usr/local/tomcat/logs
-    ports:
-    - "8222:8222"
-    container_name: tomcat002
-    restart: "always"
-  nginx:
-    image: nginx
-    privileged: true
-    volumes:
-    - ./web/nginx/nginx.conf:/etc/nginx/nginx.conf
-    - ./web/tomcat/ROOT:/usr/nginx/tomcat/ROOT
-    - ./log/nginx:/var/log/nginx
-    ports:
-    - "80:80"
-    - "443:443"
-    links:
-    - tomcat001:t01
-    - tomcat002:t02
   elasticsearch:
     image: elasticsearch:7.2.0
     privileged: true
