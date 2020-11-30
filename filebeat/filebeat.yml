@@ -1,32 +1,14 @@
 filebeat.inputs:
-- type: log
-  enabled: true               #一定要启用
-  paths:
-  - /var/log/nginx/*.log #日志路径
-  document_type: "nginx"     #指定类型  在elastic中可通过[type]识别
-  fields:
-    tag: nginx               #指定标签  在logstahs中可通过[fields][tag]识别
-- type: log
+#####################################################
+## docker  log
+#####################################################
+- type: docker
   enabled: true
-  paths:
-  - /var/log/tomcat1/*.log
-  document_type: "tomcat1"     #指定类型  在elastic中可通过[type]识别
-  fields:
-    tag: tomcat1
-  multiline:
-    pattern: '^[[:space:]]'
-    negate: true
-    match: after  
-- type: log
-  enabled: true
-  paths:
-  - /var/log/tomcat2/*.log
-  document_type: "tomcat2"     #指定类型  在elastic中可通过[type]识别
-  fields:
-    tag: tomcat2
-  multiline:
-    pattern: '^[[:space:]]'
-    negate: true
-    match: after  
+  containers.ids:
+    - '*'
+  json.key_under_root: true
+  json.overwrite_keys: true
+  tags: ["docker"]
+
 output.logstash:
   hosts: ["logstash:5044"]
